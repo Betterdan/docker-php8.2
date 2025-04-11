@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # PHP + Laravel运行环境
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./web:/var/www:rw
+      - ./php/local.ini:/usr/local/etc/php/conf.d/99-php.ini
+    networks:
+      - local_network
+
+  # Web服务器(Nginx)
+  webserver:
+    image: nginx:alpine
+    container_name: laravel_webserver
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    volumes:
+      - ./web:/var/www:rw
+      - ./nginx/conf.d:/etc/nginx/conf.d:rw
+      - ./nginx/log:/var/log/nginx:rw
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    external: true  # 声明使用外部网络
