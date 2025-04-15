@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  hyperf:
+    build: .
+    container_name: hyperf-app
+    volumes:
+      - ./demo:/opt/www:rw  # 挂载代码目录
+    ports:
+      - "9501:9501"  # 主机端口:容器端口
+    environment:
+      - APP_ENV=local
+      - TIMEZONE=Asia/Shanghai
+    restart: unless-stopped
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    external: true  # 声明使用外部网络

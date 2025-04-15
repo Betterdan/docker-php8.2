@@ -1,0 +1,19 @@
+#### 本地搭建hyperf环境
+> 不用在本地安装php相关；mysql redis 用了本地的公共服务，无需重复编排
+
+1. 先拉去一个对应版本镜像
+
+```
+docker pull hyperf/hyperf:8.1-alpine-v3.18-swoole
+
+```
+
+2. 新建容器，并初始化一个项目
+```
+docker run -it --name hyperf-demo -v $(pwd):/data -p 9501:9501 hyperf/hyperf:8.1-alpine-v3.18-swoole /bin/bash
+进入容器后 composer create-project hyperf/hyperf-skeleton .
+
+```
+
+3. 退出容器，并在目录下执行
+docker-compose up -d
